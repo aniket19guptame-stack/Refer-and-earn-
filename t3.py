@@ -17,7 +17,7 @@ from datetime import datetime, timezone
 
 from pyrogram import Client, filters
 from pyrogram.enums import ChatMemberStatus
-from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message, CallbackQuery
+from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, ReplyKeyboardMarkup, Message, CallbackQuery
 
 import aiohttp
 
@@ -35,7 +35,7 @@ import os
 # KEEP-ALIVE SERVER (Replit)
 # =========================
 from flask import Flask
-import threading
+from threading import Thread
 
 flask_app = Flask('')
 
@@ -46,7 +46,9 @@ def home():
 def run():
     flask_app.run(host="0.0.0.0", port=8080)
 
-threading.Thread(target=run).start()
+def keep_alive():
+    t = Thread(target=run)
+    t.start()
 
 API_ID = int(os.getenv("API_ID"))
 API_HASH = os.getenv("API_HASH")
@@ -1010,5 +1012,10 @@ if __name__ == "__main__":
     # make sure DB schema is created
     ensure_tables_and_settings()
 
+    # start Flask keep-alive in background
+    import threading
+    threading.Thread(target=run).start()
+
+    # start Pyrogram bot
     app.run()
 
