@@ -21,13 +21,36 @@ from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message, 
 
 import aiohttp
 
+
+
 # =========================
 # HARD-CODED TELEGRAM KEYS
 # =========================
-API_ID = 24582389
-API_HASH = "040b8ff1d81d66650ed47a2810022f2d"
-BOT_TOKEN = "8328948300:AAG9ZoZJAz_g5WdY5F8ezE12VwF1Yu6ogtU"
+# =========================
+# TELEGRAM KEYS FROM ENV VARS
+# =========================
+import os
 
+# =========================
+# KEEP-ALIVE SERVER (Replit)
+# =========================
+from flask import Flask
+import threading
+
+flask_app = Flask('')
+
+@flask_app.route('/')
+def home():
+    return "Bot is alive!"
+
+def run():
+    flask_app.run(host="0.0.0.0", port=8080)
+
+threading.Thread(target=run).start()
+
+API_ID = int(os.getenv("API_ID"))
+API_HASH = os.getenv("API_HASH")
+BOT_TOKEN = os.getenv("BOT_TOKEN")
 # =========================
 # DB & DEFAULT SETTINGS
 # =========================
