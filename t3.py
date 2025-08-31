@@ -598,7 +598,7 @@ async def callbacks(client: Client, q: CallbackQuery):
     # ===== USER MENU =====
     if data == "m_check_join":
         if await is_joined_all(uid):
-            await q.message.edit_text(f"✅ Welcome {first}! Choose an option:",
+            await q.message.reply_text(f"✅ Welcome {first}! Choose an option:",
                                       reply_markup=user_menu(is_admin(uid), is_owner(uid)))
         else:
             await q.answer("❌ You still need to join all channels.", show_alert=True)
